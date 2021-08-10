@@ -2,8 +2,15 @@
 name = "blackjack-cli"
 version = "0.1.0"
 edition = "2018"
+license = "MIT OR Apache-2.0"
+description = "play a casual game of blackjack in the terminal."
+repository = "https://github.com/dcts/blackjack-cli/"
+readme = "README.md"
+keywords = ["blackjack", "casino", "cli", "game", "fun"]
+categories = ["command-line-utilities", "games"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 rand = "0.8.3"
+
