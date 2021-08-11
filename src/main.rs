@@ -8,6 +8,8 @@ use graphics::print_game_end;
 use graphics::print_game_state;
 use graphics::sleep;
 
+mod card;
+
 pub fn main() {
     // create new Game
     let mut game: Game = Game::new();

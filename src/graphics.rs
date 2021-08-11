@@ -2,9 +2,9 @@ use std::io;
 use std::io::Write;
 use std::{thread, time};
 
-use crate::Game;
-use crate::game::Card;
-use crate::game::Value;
+use crate::game::Game;
+use crate::card::Card;
+use crate::card::Value;
 
 // 1,5 seconds wait time for dealer (for the graphics "engige")
 const SLEEP_TIME: u64 = 1500;
