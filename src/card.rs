@@ -14,33 +14,7 @@ impl Card {
         }
     }
     pub fn random() -> Card {
-        // pick random value
-        let random_value: Value = match rand::thread_rng().gen_range(2..=14) {
-            2 => Value::Two,
-            3 => Value::Three,
-            4 => Value::Four,
-            5 => Value::Five,
-            6 => Value::Six,
-            7 => Value::Seven,
-            8 => Value::Eight,
-            9 => Value::Nine,
-            10 => Value::Ten,
-            11 => Value::Jack,
-            12 => Value::Queen,
-            13 => Value::King,
-            14 => Value::Ace,
-            _ => panic!("Randomly generated value is out of bound. Allowed 2-14."),
-        };
-        // pick random color
-        let random_color: Color = match rand::thread_rng().gen_range(0..=3) {
-            0 => Color::Heart,
-            1 => Color::Diamond,
-            2 => Color::Spade,
-            3 => Color::Club,
-            _ => panic!("Randomly generated value is out of bound. Allowed 0-3."),
-        };
-        // return card with randomly picked value and color
-        Card::new(random_value, random_color)
+        Card::new(random_value(), random_color())
     }
 
     pub fn to_string(&self) -> String {
@@ -52,18 +26,18 @@ impl Card {
         let mut card_string: String = String::from(card_draft);
         // inject values
         if self.value == Value::Ten {
-            card_string = card_string.replace("v ", self.value_char());
-            card_string = card_string.replace(" v", self.value_char());
+            card_string = card_string.replace("v ", self.value_str());
+            card_string = card_string.replace(" v", self.value_str());
         } else {
-            card_string = card_string.replace("v", self.value_char());
+            card_string = card_string.replace("v", self.value_str());
         }
         // inject color
-        card_string = card_string.replace("c", self.color_char());
+        card_string = card_string.replace("c", self.color_str());
         // return
         card_string
     }
     // return value char
-    pub fn value_char(&self) -> &str {
+    pub fn value_str(&self) -> &str {
         match self.value {
             Value::Two => "2",
             Value::Three => "3",
@@ -81,7 +55,7 @@ impl Card {
         }
     }
     // return color char
-    pub fn color_char(&self) -> &str {
+    pub fn color_str(&self) -> &str {
         match self.color {
             Color::Heart => "♥",
             Color::Diamond => "♦",
@@ -114,4 +88,31 @@ pub enum Color {
     Diamond,
     Spade,
     Club,
+}
+pub fn random_color() -> Color {
+    match rand::thread_rng().gen_range(0..=3) {
+        0 => Color::Heart,
+        1 => Color::Diamond,
+        2 => Color::Spade,
+        3 => Color::Club,
+        _ => panic!("Randomly generated value is out of bound. Allowed 0-3."),
+    }
+}
+pub fn random_value() -> Value {
+    match rand::thread_rng().gen_range(2..=14) {
+        2 => Value::Two,
+        3 => Value::Three,
+        4 => Value::Four,
+        5 => Value::Five,
+        6 => Value::Six,
+        7 => Value::Seven,
+        8 => Value::Eight,
+        9 => Value::Nine,
+        10 => Value::Ten,
+        11 => Value::Jack,
+        12 => Value::Queen,
+        13 => Value::King,
+        14 => Value::Ace,
+        _ => panic!("Randomly generated value is out of bound. Allowed 2-14."),
+    }
 }

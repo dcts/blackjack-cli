@@ -97,14 +97,14 @@ pub fn print_cards_hidden(cards: &Vec<Card>) {
     let mut cards_string: String = String::from(cards_draft);
     // inject values
     if cards[0].value == Value::Ten {
-        cards_string = cards_string.replace("v ", cards[0].value_char());
-        cards_string = cards_string.replace(" v", cards[0].value_char());
+        cards_string = cards_string.replace("v ", cards[0].value_str());
+        cards_string = cards_string.replace(" v", cards[0].value_str());
     } else {
-        cards_string = cards_string.replace("v", cards[0].value_char());
-        cards_string = cards_string.replace("v", cards[0].value_char());
+        cards_string = cards_string.replace("v", cards[0].value_str());
+        cards_string = cards_string.replace("v", cards[0].value_str());
     }
     // inject color
-    cards_string = cards_string.replace("c", cards[0].color_char());
+    cards_string = cards_string.replace("c", cards[0].color_str());
     // return
     println!("{}", cards_string);
 }
