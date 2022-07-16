@@ -70,6 +70,18 @@ pub fn print_cards(cards: &Vec<Card>) {
         // CMON THIS IS INSANE...
         // THERE HAS TO BE A BETTER
         // OF DOING THIS SHIT....
+        // => encode and decode matrix
+        // => e.g. [
+        //           [card1_1, card2_1, card3_1, card3_1],
+        //           [card1_2, card2_2, card3_2, card3_2],
+        //           [card1_3, card2_3, card3_3, card3_3],
+        //           [card1_4, card2_4, card3_4, card3_4],
+        //           [card1_5, card2_5, card3_5, card3_5],
+        //         ]
+        // Create 2 functions
+        // => fn cards_to_cardsmatrix(vec: Vec<Cards>) -> CardsMatrix
+        // => fn cardsmatrix_to_cards(cardsmatrix: CardsMatrix) -> Cards
+
         let mut vec: Vec<String> = vec![];
         for temp in vec_temporary {
             vec.push(temp.to_owned());
@@ -96,12 +108,15 @@ pub fn print_cards_hidden(cards: &Vec<Card>) {
                             └─────┘└─────┘\n";
     let mut cards_string: String = String::from(cards_draft);
     // inject values
-    if cards[0].value == Value::Ten {
-        cards_string = cards_string.replace("v ", cards[0].value_str());
-        cards_string = cards_string.replace(" v", cards[0].value_str());
-    } else {
-        cards_string = cards_string.replace("v", cards[0].value_str());
-        cards_string = cards_string.replace("v", cards[0].value_str());
+    match cards[0].value {
+        Value::Ten => {
+            cards_string = cards_string.replace("v ", cards[0].value_str());
+            cards_string = cards_string.replace(" v", cards[0].value_str());
+        },
+        _ => {
+            cards_string = cards_string.replace("v", cards[0].value_str());
+            cards_string = cards_string.replace("v", cards[0].value_str());
+        }
     }
     // inject color
     cards_string = cards_string.replace("c", cards[0].color_str());
