@@ -19,10 +19,10 @@ impl Card {
 
     pub fn to_string(&self) -> String {
         let card_draft = "┌─────┐\n\
-                          │v    |\n\
-                          │  c  |\n\
-                          │    v|\n\
-                          └─────┘";
+                                │v    |\n\
+                                │  c  |\n\
+                                │    v|\n\
+                                └─────┘";
         let mut card_string: String = String::from(card_draft);
         // inject values
         if self.value == Value::Ten {
