@@ -102,10 +102,10 @@ pub fn print_cards(cards: &Vec<Card>) {
 
 pub fn print_cards_hidden(cards: &Vec<Card>) {
     let cards_draft = "┌─────┐┌─────┐\n\
-                            │░░░░░|│v    |\n\
-                            │░░░░░|│  c  |\n\
-                            │░░░░░|│    v|\n\
-                            └─────┘└─────┘\n";
+                             │░░░░░|│v    |\n\
+                             │░░░░░|│  c  |\n\
+                             │░░░░░|│    v|\n\
+                             └─────┘└─────┘\n";
     let mut cards_string: String = String::from(cards_draft);
     // inject values
     match cards[0].value {
