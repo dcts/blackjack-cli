@@ -11,7 +11,6 @@ use graphics::sleep;
 mod card;
 
 pub fn main() {
-    // create new Game
     let mut game: Game = Game::new();
 
     // display initial game state

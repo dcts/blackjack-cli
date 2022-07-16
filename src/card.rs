@@ -5,14 +5,15 @@ pub struct Card {
     pub value: Value,
     pub color: Color,
 }
+
 impl Card {
-    // constructor
     pub fn new(value: Value, color: Color) -> Card {
         Card {
             value: value,
             color: color,
         }
     }
+
     pub fn random() -> Card {
         Card::new(random_value(), random_color())
     }
@@ -24,19 +25,24 @@ impl Card {
                                 │    v|\n\
                                 └─────┘";
         let mut card_string: String = String::from(card_draft);
+        
         // inject values
-        if self.value == Value::Ten {
-            card_string = card_string.replace("v ", self.value_str());
-            card_string = card_string.replace(" v", self.value_str());
-        } else {
-            card_string = card_string.replace("v", self.value_str());
+        match self.value {
+            Value::Ten => {
+                card_string = card_string.replace("v ", self.value_str());
+                card_string = card_string.replace(" v", self.value_str());
+            },
+            _ => {
+                card_string = card_string.replace("v", self.value_str());
+            }
         }
         // inject color
         card_string = card_string.replace("c", self.color_str());
-        // return
+        
         card_string
     }
-    // return value char
+    
+    // needed to print to terminal
     pub fn value_str(&self) -> &str {
         match self.value {
             Value::Two => "2",
@@ -54,7 +60,8 @@ impl Card {
             Value::Ace => "A",
         }
     }
-    // return color char
+
+    // needed to print to terminal
     pub fn color_str(&self) -> &str {
         match self.color {
             Color::Heart => "♥",
@@ -89,6 +96,7 @@ pub enum Color {
     Spade,
     Club,
 }
+
 pub fn random_color() -> Color {
     match rand::thread_rng().gen_range(0..=3) {
         0 => Color::Heart,
@@ -98,6 +106,7 @@ pub fn random_color() -> Color {
         _ => panic!("Randomly generated value is out of bound. Allowed 0-3."),
     }
 }
+
 pub fn random_value() -> Value {
     match rand::thread_rng().gen_range(2..=14) {
         2 => Value::Two,

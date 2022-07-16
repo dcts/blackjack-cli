@@ -14,10 +14,12 @@ impl Game {
         dealer_cards.push(Card::random());
         dealer_cards.push(Card::random());
         let dealer_score: u8 = Game::compute_score(&dealer_cards);
+        
         // initial player cards
         let mut player_cards: Vec<Card> = Vec::new();
         player_cards.push(Card::random());
         player_cards.push(Card::random());
+
         let player_score: u8 = Game::compute_score(&player_cards);
         // return randomly initialized game state
         Game {
@@ -27,14 +29,17 @@ impl Game {
             player_score: player_score,
         }
     }
+
     pub fn player_draw_card(&mut self) {
         self.player_cards.push(Card::random());
         self.player_score = Game::compute_score(&self.player_cards);
     }
+    
     pub fn dealer_draw_card(&mut self) {
         self.dealer_cards.push(Card::random());
         self.dealer_score = Game::compute_score(&self.dealer_cards);
     }
+    
     fn compute_score(cards: &Vec<Card>) -> u8 {
         let mut score = 0;
         let mut contains_ace: bool = false;
