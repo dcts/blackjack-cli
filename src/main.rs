@@ -32,7 +32,7 @@ pub fn main() {
                 }
             },
             PlayerAction::Stop => {
-                // check if dealer has won
+                // check game state and end conditions
                 if game.dealer_score > game.player_score {
                     print_game_end(&game, "❌ YOU LOST ❌");
                     break;
