@@ -22,46 +22,47 @@ pub fn main() {
         // prompt user action
         let player_action = prompt_for_user_action(&game);
         
-        if let PlayerAction::Draw = player_action {
-            game.player_draw_card();
-            print_game_state_with_hidden_card(&game);
-            if game.player_score > 21 {
-                print_game_end(&game, "❌ BUSTED ❌");
-                break;
-            }
-
-        } else if let PlayerAction::Stop = player_action {
-            // check if dealer has won
-            if game.dealer_score > game.player_score {
-                print_game_end(&game, "❌ YOU LOST ❌");
-                break;
-            } else if game.dealer_score == game.player_score {
-                print_game_end(&game, "✋ It's a DRAW ✋");
-                break;
-            } else {
-                print_game_state(&game, "👀 Dealer revealer his hidden card...\n...\n...");
-                while game.dealer_score < game.player_score {
-                    // wait 1 sec
-                    sleep();
-                    // take another card and display
-                    game.dealer_draw_card();
-                    // check endgame conditions
-                    if game.dealer_score > 21 {
-                        print_game_end(&game, "🎉 YOU WON 🎉");
-                        break;
-                    } else if game.dealer_score == game.player_score {
-                        print_game_end(&game, "✋ It's a DRAW ✋");
-                        break;
-                    } else if game.dealer_score > game.player_score {
-                        print_game_end(&game, "❌ YOU LOST ❌");
-                        break;
-                    }
-                    print_game_state(&game, "🃏 Dealer has grabbed another card... \n...\n...");
+        match player_action {
+            PlayerAction::Draw => {
+                game.player_draw_card();
+                print_game_state_with_hidden_card(&game);
+                if game.player_score > 21 {
+                    print_game_end(&game, "❌ BUSTED ❌");
+                    break;
                 }
-                break;
-            }
-        } else {
-            println!("(INVALID INPUT)");
+            },
+            PlayerAction::Stop => {
+                // check if dealer has won
+                if game.dealer_score > game.player_score {
+                    print_game_end(&game, "❌ YOU LOST ❌");
+                    break;
+                } else if game.dealer_score == game.player_score {
+                    print_game_end(&game, "✋ It's a DRAW ✋");
+                    break;
+                } else {
+                    print_game_state(&game, "👀 Dealer revealer his hidden card...\n...\n...");
+                    while game.dealer_score < game.player_score {
+                        // wait 1 sec
+                        sleep();
+                        // take another card and display
+                        game.dealer_draw_card();
+                        // check endgame conditions
+                        if game.dealer_score > 21 {
+                            print_game_end(&game, "🎉 YOU WON 🎉");
+                            break;
+                        } else if game.dealer_score == game.player_score {
+                            print_game_end(&game, "✋ It's a DRAW ✋");
+                            break;
+                        } else if game.dealer_score > game.player_score {
+                            print_game_end(&game, "❌ YOU LOST ❌");
+                            break;
+                        }
+                        print_game_state(&game, "🃏 Dealer has grabbed another card... \n...\n...");
+                    }
+                    break;
+                }
+            },
+            PlayerAction::Error(err_str) => println!("\n(INVALID INPUT) {}", err_str),
         }
     }
 }

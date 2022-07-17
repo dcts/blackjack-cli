@@ -7,6 +7,7 @@ pub struct Game {
     pub player_cards: Vec<Card>,
     pub player_score: u8,
 }
+
 impl Game {
     pub fn new() -> Game {
         // initial bank cards

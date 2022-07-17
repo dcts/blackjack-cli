@@ -143,15 +143,16 @@ pub fn prompt_for_user_action(game: &Game) -> PlayerAction {
             match user_input_char {
                 'd' => PlayerAction::Draw,
                 's' => PlayerAction::Stop,
-                _ => panic!("Invalid user input, expected char 's' or 'd'. Got: {}", user_input_str)
+                _ => PlayerAction::Error(format!("Expected char 's' or 'd'. Got: {}", user_input_str)),
             }
         }
-        _ => panic!("Invalid user input, expected char 's' or 'd'. Got empty string")
+        _ => PlayerAction::Error("Expected char 's' or 'd'. Got empty string".to_string()),
     }
 }
 
 pub enum PlayerAction {
     Draw,
-    Stop
+    Stop,
+    Error(String)
 }
 
