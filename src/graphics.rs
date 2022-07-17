@@ -126,7 +126,7 @@ pub fn print_cards_hidden(cards: &Vec<Card>) {
 }
 
 // INTEACTION INTERFACE
-pub fn prompt_for_user_action(game: &Game) -> String {
+pub fn prompt_for_user_action(game: &Game) -> PlayerAction {
     println!("Your score is {}. What do you like to do?\n- draw another card (d)\n- stop (s)", game.player_score);
     print!("> ");
     io::stdout().flush().unwrap();
@@ -136,5 +136,22 @@ pub fn prompt_for_user_action(game: &Game) -> String {
         .read_line(&mut choice)
         .expect("Failed to read input");
 
-    choice.trim().to_string()
+    let user_input_str = choice.trim().to_string();
+    match user_input_str.len() {
+        1 => {
+            let user_input_char = user_input_str.chars().next().unwrap();
+            match user_input_char {
+                'd' => PlayerAction::Draw,
+                's' => PlayerAction::Stop,
+                _ => panic!("Invalid user input, expected char 's' or 'd'. Got: {}", user_input_str)
+            }
+        }
+        _ => panic!("Invalid user input, expected char 's' or 'd'. Got empty string")
+    }
 }
+
+pub enum PlayerAction {
+    Draw,
+    Stop
+}
+

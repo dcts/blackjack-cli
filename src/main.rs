@@ -2,6 +2,7 @@ mod game;
 use game::Game;
 
 mod graphics;
+use graphics::PlayerAction;
 use graphics::print_game_state_with_hidden_card;
 use graphics::prompt_for_user_action;
 use graphics::print_game_end;
@@ -19,8 +20,9 @@ pub fn main() {
     // endgame condition breaks loop
     loop {
         // prompt user action
-        let choice: String = prompt_for_user_action(&game);
-        if choice == "d" {
+        let player_action = prompt_for_user_action(&game);
+        
+        if let PlayerAction::Draw = player_action {
             game.player_draw_card();
             print_game_state_with_hidden_card(&game);
             if game.player_score > 21 {
@@ -28,7 +30,7 @@ pub fn main() {
                 break;
             }
 
-        } else if choice == "s" {
+        } else if let PlayerAction::Stop = player_action {
             // check if dealer has won
             if game.dealer_score > game.player_score {
                 print_game_end(&game, "❌ YOU LOST ❌");
