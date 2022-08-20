@@ -49,10 +49,10 @@ impl Card {
 impl fmt::Display for Card {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let card_draft = "┌─────┐\n\
-                                │v    |\n\
-                                │  c  |\n\
-                                │    v|\n\
-                                └─────┘";
+                          │v    |\n\
+                          │  c  |\n\
+                          │    v|\n\
+                          └─────┘";
         let mut card_string: String = String::from(card_draft);
 
         // inject values
