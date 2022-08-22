@@ -1,4 +1,5 @@
 use rand::Rng;
+use std::fmt;
 
 #[derive(Debug, Clone)]
 pub struct Card {
@@ -8,40 +9,13 @@ pub struct Card {
 
 impl Card {
     pub fn new(value: Value, color: Color) -> Card {
-        Card {
-            value: value,
-            color: color,
-        }
+        Card { value, color }
     }
 
     pub fn random() -> Card {
         Card::new(random_value(), random_color())
     }
 
-    pub fn to_string(&self) -> String {
-        let card_draft = "┌─────┐\n\
-                                │v    |\n\
-                                │  c  |\n\
-                                │    v|\n\
-                                └─────┘";
-        let mut card_string: String = String::from(card_draft);
-        
-        // inject values
-        match self.value {
-            Value::Ten => {
-                card_string = card_string.replace("v ", self.value_str());
-                card_string = card_string.replace(" v", self.value_str());
-            },
-            _ => {
-                card_string = card_string.replace("v", self.value_str());
-            }
-        }
-        // inject color
-        card_string = card_string.replace("c", self.color_str());
-        
-        card_string
-    }
-    
     // needed to print to terminal
     pub fn value_str(&self) -> &str {
         match self.value {
@@ -72,7 +46,32 @@ impl Card {
     }
 }
 
-#[derive(Debug, PartialEq, Clone)]
+impl fmt::Display for Card {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let card_draft = "┌─────┐\n\
+                          │v    |\n\
+                          │  c  |\n\
+                          │    v|\n\
+                          └─────┘";
+        let mut card_string: String = String::from(card_draft);
+
+        // inject values
+        match self.value {
+            Value::Ten => {
+                card_string = card_string.replace("v ", self.value_str());
+                card_string = card_string.replace(" v", self.value_str());
+            }
+            _ => {
+                card_string = card_string.replace('v', self.value_str());
+            }
+        }
+        // inject color
+        card_string = card_string.replace('c', self.color_str());
+        write!(f, "{}", card_string)
+    }
+}
+
+#[derive(Debug, PartialEq, Eq, Clone)]
 pub enum Value {
     Two,
     Three,

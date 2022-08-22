@@ -2,11 +2,11 @@ use std::io;
 use std::io::Write;
 use std::{thread, time};
 
-use crate::game::Game;
 use crate::card::Card;
 use crate::card::Value;
+use crate::game::Game;
 
-// 1,5 seconds wait time for dealer (for the graphics "engige")
+// 1,5 seconds wait time for dealer (for the graphics "engine")
 const SLEEP_TIME: u64 = 1500;
 
 // GRAPHICS "ENGINE"
@@ -50,7 +50,10 @@ pub fn print_game_end(game: &Game, final_message: &str) {
 
     // to make the end status have the same dimensions
     // as an ongoing game I am adding some random lines
-    println!("{}\n- Your score is {}\n- The Dealer's score is {}", final_message, game.player_score, game.dealer_score);
+    println!(
+        "{}\n- Your score is {}\n- The Dealer's score is {}",
+        final_message, game.player_score, game.dealer_score
+    );
     print!("> press any key to exit");
     io::stdout().flush().unwrap();
     let mut choice = String::new();
@@ -61,12 +64,12 @@ pub fn print_game_end(game: &Game, final_message: &str) {
     println!("...exiting");
 }
 
-pub fn print_cards(cards: &Vec<Card>) {
+pub fn print_cards(cards: &[Card]) {
     // generate card splits
     let mut card_splits: Vec<Vec<String>> = vec![];
     for card in cards {
-        let card_string = String::from(card.to_string());
-        let vec_temporary: Vec<&str> = card_string.split("\n").collect();
+        let card_string = card.to_string();
+        let vec_temporary: Vec<&str> = card_string.split('\n').collect();
         // CMON THIS IS INSANE...
         // THERE HAS TO BE A BETTER
         // OF DOING THIS SHIT....
@@ -93,14 +96,14 @@ pub fn print_cards(cards: &Vec<Card>) {
     let mut final_string = String::from("");
     for line in 1..=5 {
         for split in card_splits.iter() {
-            final_string.push_str(&split[line-1]);
+            final_string.push_str(&split[line - 1]);
         }
-        final_string.push_str("\n");
+        final_string.insert(final_string.len(), '\n');
     }
-    println!("{}",final_string);
+    println!("{}", final_string);
 }
 
-pub fn print_cards_hidden(cards: &Vec<Card>) {
+pub fn print_cards_hidden(cards: &[Card]) {
     let cards_draft = "┌─────┐┌─────┐\n\
                              │░░░░░|│v    |\n\
                              │░░░░░|│  c  |\n\
@@ -113,21 +116,24 @@ pub fn print_cards_hidden(cards: &Vec<Card>) {
         Value::Ten => {
             cards_string = cards_string.replace("v ", cards[0].value_str());
             cards_string = cards_string.replace(" v", cards[0].value_str());
-        },
+        }
         _ => {
-            cards_string = cards_string.replace("v", cards[0].value_str());
-            cards_string = cards_string.replace("v", cards[0].value_str());
+            cards_string = cards_string.replace('v', cards[0].value_str());
+            cards_string = cards_string.replace('v', cards[0].value_str());
         }
     }
 
     // inject color
-    cards_string = cards_string.replace("c", cards[0].color_str());
+    cards_string = cards_string.replace('c', cards[0].color_str());
     println!("{}", cards_string);
 }
 
 // INTEACTION INTERFACE
 pub fn prompt_for_user_action(game: &Game) -> PlayerAction {
-    println!("Your score is {}. What do you like to do?\n- draw another card (d)\n- stop (s)", game.player_score);
+    println!(
+        "Your score is {}. What do you like to do?\n- draw another card (d)\n- stop (s)",
+        game.player_score
+    );
     print!("> ");
     io::stdout().flush().unwrap();
     let mut choice = String::new();
@@ -143,7 +149,10 @@ pub fn prompt_for_user_action(game: &Game) -> PlayerAction {
             match user_input_char {
                 'd' => PlayerAction::Draw,
                 's' => PlayerAction::Stop,
-                _ => PlayerAction::Error(format!("Expected char 's' or 'd'. Got: {}", user_input_str)),
+                _ => PlayerAction::Error(format!(
+                    "Expected char 's' or 'd'. Got: {}",
+                    user_input_str
+                )),
             }
         }
         _ => PlayerAction::Error("Expected char 's' or 'd'. Got empty string".to_string()),
@@ -153,6 +162,5 @@ pub fn prompt_for_user_action(game: &Game) -> PlayerAction {
 pub enum PlayerAction {
     Draw,
     Stop,
-    Error(String)
+    Error(String),
 }
-
